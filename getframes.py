@@ -24,7 +24,7 @@ if not os.path.exists(dirname):
     os.mkdir(dirname)
     
 print(cv2.__version__)
-cap = cv2.VideoCapture(videoname)
+# cap = cv2.VideoCapture(videoname)
 success,image = cap.read()
 count = 0
 success = True

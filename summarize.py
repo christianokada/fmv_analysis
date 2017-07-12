@@ -1,18 +1,25 @@
-import json
-input_file=open('json.json', 'r')
-output_file=open('test.json', 'w')
-json_decode=json.load(input_file)
+import os, json
+import pandas as pd
 
-result = []
-for item in json_decode:
-    my_dict={}
-    my_dict['title']=item.get('labels').get('en').get('value')
-    my_dict['description']=item.get('descriptions').get('en').get('value')
-    my_dict['id']=item.get('id')
-    print my_dict
-    result.append(my_dict)
+path = 'data/'
+json_files = [pos_json for pos_json in os.listdir(path) if pos_json.endswith('.json')]
+print json_files  # for me this prints ['foo.json']
+print "\n"
 
-    back_json=json.dumps(result, output_file)
+description = []
 
-    output_file.write(back_json)
-    output_file.close() 
+for js in json_files:
+    with open(os.path.join(path, js)) as json_file:
+        # do something with your json; I'll just print
+        data = json.load(json_file)
+        if "description" in data:
+            text = data["description"]["captions"][0]["text"]
+            if (len(description) < 1):
+                description.append(text)
+            if (len(description) > 0 and text != description[len(description) - 1]):
+                description.append(text)
+            # print (data["description"]["captions"][0]["text"])
+        # print json.load(json_file)
+
+for d in description:
+    print d

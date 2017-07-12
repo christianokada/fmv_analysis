@@ -4,7 +4,7 @@
 import httplib, urllib, base64, json
 import os
 
-from tf_idf import sortedTfIdfLists
+# from tf_idf import sortedTfIdfLists
 import json
 from pprint import pprint
 ###############################################
