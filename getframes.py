@@ -3,6 +3,8 @@ import numpy as np
 import argparse
 import cv2
 import os
+import time
+import json
 
 # parse command line to add video arg
 ap = argparse.ArgumentParser()
@@ -35,17 +37,30 @@ fps = cap.get(cv2.CAP_PROP_FPS)
 print('Frame count: %d' % fc)
 print('FPS: %d' % fps)
 
+times = []
+f = 0
+seconds = 0
 while success:
+    if (f > fps):
+        seconds += 1
+        f = 0
+    f += 1
+
     success,image = cap.read()
     if count > 0 and count < (fc-10):
         diff = sum(sum(sum(abs(image-previmage))))
         diffs.append(diff)
         if diff > (370 * 1.8):
             cv2.imwrite(os.path.join(dirname, "frame%06d.jpg" % count), image)     # save frame as JPEG file
-    previmage = image
+            print (str(seconds / 60) + ":" + "%02d" % (seconds % 60))
+            times.append(str(seconds / 60) + ":" + "%02d" % (seconds % 60))
     #print image.shape
+    previmage = image
     #print 'Read a new frame: ', success
     count += 1
+
+with open('timestamps.json', 'w') as outfile:
+    json.dump(times, outfile)
 
 diffa = np.asarray(diffs)
 print(np.min(diffa))

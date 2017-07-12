@@ -2,7 +2,7 @@
 
 ########### Python 2.7 #############
 import httplib, urllib, base64, json
-import os
+import os, time
 
 # from tf_idf import sortedTfIdfLists
 import json
@@ -28,6 +28,8 @@ uri_base = 'westcentralus.api.cognitive.microsoft.com'
 # 1) analyzing locally stored images
 # 2) analyzing image from URL
 # Uncomment/comment code accordingly
+with open('timestamps.json') as json_data:
+        timestamps = json.load(json_data)
 
 def main():
     params = urllib.urlencode({
@@ -38,10 +40,15 @@ def main():
     localImages(params) # Uncomment if you want to analyze all images inside ./analyze/ directory
     # urlImages(params) # Uncomment if you want to analyze URL defined in urlImages method
 
+
+    dirname = 'data'
+    if not os.path.exists(dirname):
+        os.mkdir(dirname)
+
     with open('data.json') as data_file:    
         data = json.load(data_file)
 
-    currentPath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data") # ./analyze
+    currentPath = os.path.join(os.path.dirname(os.path.abspath(__file__)), dirname) # ./analyze
     for file in os.listdir(currentPath):
         try:
             if file.endswith(".json"):
@@ -96,6 +103,7 @@ def headersForLocalImages():
 def analyzeLocalImages(params, headers):
     # directory of images to analyze
     currentPath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "analyze") # ./analyze
+    stamp = 0
     for file in os.listdir(currentPath):
         try:
           # check for png, jpg, or bmp
@@ -115,6 +123,11 @@ def analyzeLocalImages(params, headers):
             data = f.read()
 
         jsonData = analyzeImageData(params, data, headers)
+        jsonData["timestamp"] = timestamps[stamp]
+        stamp += 1
+
+        print ("Response:")
+        print (json.dumps(jsonData, sort_keys=True, indent=2))
         storeData(jsonData, img_name)
 
 # used for both locally stored images and image from URL
@@ -126,11 +139,11 @@ def analyzeImageData(params, data, headers):
         conn.request("POST", "/vision/v1.0/analyze?%s" % params, data, headers)
         response = conn.getresponse()
         data = response.read()
+        
+        time.sleep(1) # sleep to stay below rate limit
 
         # 'data' contains the JSON data. The following formats the JSON data for display.
         jsonData = json.loads(data)
-        print ("Response:")
-        print (json.dumps(jsonData, sort_keys=True, indent=2))
         conn.close()
 
         return jsonData
