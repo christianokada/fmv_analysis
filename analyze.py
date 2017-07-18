@@ -3,6 +3,7 @@
 ########### Python 2.7 #############
 import httplib, urllib, base64, json
 import os, time
+import argparse
 
 # from tf_idf import sortedTfIdfLists
 import json
@@ -10,8 +11,15 @@ from pprint import pprint
 ###############################################
 #### Update or verify the following values. ###
 ###############################################
-# Replace the subscription_key string value with your valid subscription key.
-subscription_key = 'b9140559a8fd44b981f7e6c906151a53'
+
+ap = argparse.ArgumentParser()
+ap.add_argument("-k", "--key",
+    help="enter supscription key")
+ap.add_argument("-b", "--buffer", type=int, default=64,
+    help="max buffer size")
+args = vars(ap.parse_args())
+
+subscription_key = args["key"]
 
 # Replace or verify the region.
 #
@@ -37,13 +45,9 @@ def main():
         'visualFeatures': 'Categories,Description,Color',
         'language': 'en',
     })
+    
     localImages(params) # Uncomment if you want to analyze all images inside ./analyze/ directory
     # urlImages(params) # Uncomment if you want to analyze URL defined in urlImages method
-
-
-    dirname = 'data'
-    if not os.path.exists(dirname):
-        os.mkdir(dirname)
 
     with open('data.json') as data_file:    
         data = json.load(data_file)
@@ -104,6 +108,7 @@ def analyzeLocalImages(params, headers):
     # directory of images to analyze
     currentPath = os.path.join(os.path.dirname(os.path.abspath(__file__)), "analyze") # ./analyze
     stamp = 0
+
     for file in os.listdir(currentPath):
         try:
           # check for png, jpg, or bmp
@@ -140,7 +145,7 @@ def analyzeImageData(params, data, headers):
         response = conn.getresponse()
         data = response.read()
         
-        time.sleep(1) # sleep to stay below rate limit
+        # time.sleep(1) # sleep to stay below rate limit if 20 calls per minute
 
         # 'data' contains the JSON data. The following formats the JSON data for display.
         jsonData = json.loads(data)
