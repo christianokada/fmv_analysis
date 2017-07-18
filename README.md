@@ -11,3 +11,5 @@ Demo:<br />
 $ python getframes.py --video videoname<br />
 $ python analyze.py --key supscription key<br />
 $ python summarize.py<br />
+
+Open index.html to view video summary!
