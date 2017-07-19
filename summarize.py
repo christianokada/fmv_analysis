@@ -22,9 +22,11 @@ for js in json_files:
             text = data["timestamp"] + " " + data["description"]["captions"][0]["text"]
             if (len(description) < 1):
                 description.append(text)
+                tags.append(data["description"]["tags"])
                 images.append(parse_json_name(json_files[count], ".jpg"))
             if (len(description) > 0 and text[6:] != description[len(description) - 1][6:]):
                 description.append(text)
+                tags.append(data["description"]["tags"])
                 images.append(parse_json_name(json_files[count], ".jpg"))\
         # print json.load(json_file)
         count += 1
@@ -41,8 +43,11 @@ for x in range (0, len(images)):
     name = parse_json_name(json_files[x], ".html")
     pages.append(name)
     page = open("pages/"+name, "w")
-    text = single1 + '<div class="fh5co-narrow-content animate-box fh5co-border-bottom" data-animate-effect="fadeInLeft"><h2 class="fh5co-heading" ></span></h2><p><p>' + description[x] + '</p></p><div class="row"><div class="col-md-12"><figure><img src="../analyze/' + images[x] + '" alt="" width="75%" height="auto" class="img-responsive"></figure></div></div></div>' + single2
-    # text +=  add tags here
+    text = single1 + '<div class="fh5co-narrow-content animate-box fh5co-border-bottom" data-animate-effect="fadeInLeft"><h2 class="fh5co-heading" ></span></h2><p><p>' + description[x] + '</p></p><div class="row"><div class="col-md-12"><figure><img src="../analyze/' + images[x] + '" alt="" width="75%" height="auto" class="img-responsive"></figure></div></div>'
+    text +=  '<div><h2>Tags</h2><ul style="list-style-type:none">'
+    for t in range (0, len(tags[x])):
+        text += '<li>' + tags[x][t] + '<li>'
+    text += '</ul></div></div>' + single2
     page.write(text)
 
 index1 = open("web/index1.txt", "r")
