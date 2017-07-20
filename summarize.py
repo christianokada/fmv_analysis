@@ -1,5 +1,6 @@
 import os, json
 import pandas as pd
+from bs4 import BeautifulSoup as Soup
 
 # get all json files
 path = 'data/'
@@ -34,35 +35,107 @@ for js in json_files:
 for d in description:
     print d
 
-single1 = open("web/single1.txt", "r").read()
-single2 = open("web/single2.txt", "r").read()
-
-# create individual image pages
+#create individual images pages
 pages = []
 for x in range (0, len(images)):
     name = parse_json_name(json_files[x], ".html")
     pages.append(name)
     page = open("pages/"+name, "w")
-    text = single1 + '<div class="fh5co-narrow-content animate-box fh5co-border-bottom" data-animate-effect="fadeInLeft"><h2 class="fh5co-heading" ></span></h2><p><p>' + description[x] + '</p></p><div class="row"><div class="col-md-12"><figure><img src="../analyze/' + images[x] + '" alt="" width="75%" height="auto" class="img-responsive"></figure></div></div>'
-    text +=  '<div><h2>Tags</h2><ul style="list-style-type:none">'
+    base = open("web/base_single.txt")
+    soup = Soup(base, "html.parser")
+    loc = soup.find("div", { "id" : "image-loc" })
+    element = soup.new_tag('div')
+    element['class'] = 'fh5co-narrow-content animate-box fh5co-border-bottom'
+    element['data-animate-effect'] = 'fadeInLeft'
+    h2 = soup.new_tag('h2')
+    h2['class'] = 'fh5co-heading'
+    p = soup.new_tag('p')
+    p.insert(1, description[x])
+    div = soup.new_tag('div')
+    div['class'] = 'row'
+    sub_div = soup.new_tag('div')
+    sub_div['class'] = 'col-md-12'
+    figure = soup.new_tag('figure')
+    img = soup.new_tag('img')
+    img['class'] = 'img-responsive'
+    img['src'] = '../analyze/' + images[x]
+    img['width'] = '75%'
+    img['height'] = 'auto'
+    
+    figure.insert(1, img)
+    sub_div.insert(1, figure)
+    div.insert(1, sub_div)
+
+    element.insert(1, h2)
+    element.insert(2, p)
+    element.insert(3, div)
+
+    # add tags below
+    tags_element = soup.new_tag('div')
+    h2 = soup.new_tag('h2')
+    h2['class'] = 'tags_h2'
+    # h2.insert(1, 'Tags')
+    div = soup.new_tag('div')
+    div['class'] = 'tags_list'
+    ul = soup.new_tag('ul')
+    ul['id'] = 'menu'
+    ul['style'] = 'list-style-type:none'
+
+    # put tags in unordered list
     for t in range (0, len(tags[x])):
-        text += '<li>' + tags[x][t] + '<li>'
-    text += '</ul></div></div>' + single2
-    page.write(text)
+        li = soup.new_tag('li')
+        li.insert(t, tags[x][t])
+        ul.insert(t, li)
 
-index1 = open("web/index1.txt", "r")
-index2 = open("web/index2.txt", "r")
+    # insert tag number
+    tag_num_loc = soup.find("div", { "class" : "col-md-4 text-center" })
+    tag_num = soup.new_tag('span')
+    tag_num['class'] = 'fh5co-counter js-counter'
+    tag_num['data-from'] = '0'
+    tag_num['data-to'] = len(tags[x])
+    tag_num['data-speed'] = '1500'
+    tag_num['data-refresh-interva'] = '50'
 
-html = index1.read()
-html_images = []
+    # insert nested tags
+    div.insert(1, ul)
+    tags_element.insert(1, h2)
+    tags_element.insert(2, div)
 
-# create index page
-for x in range (0, len(images)):
-    html += '<a class="gallery-item" href="pages/' + pages[x] + '"><img src="analyze/'+ images[x] + '" alt="" width="100%" height="auto"><span class="overlay"><h2>'+ description[x] + '</h2></span></a>'
-    x += 1
+    # add html after selected location
+    loc.insert_after(tags_element)
+    loc.insert_after(element)
+    tag_num_loc.insert_after(tag_num)
 
-html += index2.read()
+    #write to file
+    page.write(str(soup))
+    page.close()
 
+# create index.html
+html_index = open("web/base.txt")
+soup = Soup(html_index, "html.parser")
+gallery = soup.find("div", { "class" : "image-gallery" })
+for x in range(len(images) - 1, -1, -1):
+    element = soup.new_tag('a')
+    element['class'] = 'gallery-item'
+    element['href'] = 'pages/' + pages[x]
+    image = soup.new_tag('img')
+    image['src'] = 'analyze/'+ images[x]
+    image['width'] = '100%'
+    image['height'] = 'auto'
+    span = soup.new_tag('span')
+    span['class'] = 'overlay'
+    h2 = soup.new_tag('h2')
+
+    # insert nested tags
+    h2.insert(1, description[x])
+    span.insert(1, h2)
+    element.insert(1, image)
+    element.insert(2, span)
+
+    # insert html at specified location (gallery)
+    gallery.insert_after(element)
+
+# write to file
 index = open("index.html", "w")
-index.write(html)
+index.write(str(soup))
 index.close()
