@@ -51,7 +51,7 @@
 			</nav>
 
 			<div class="fh5co-footer">
-				<p><small>Summary for [videoname]</span><span><a href="https://github.com/christianokada/fmv_analysis" target="_blank">Github</a></span></small></p>
+				<p><small><a href="https://github.com/christianokada/fmv_analysis" target="_blank">FMV Analysis</a></span><span></span></small></p>
             </div>
 
 		</aside>
