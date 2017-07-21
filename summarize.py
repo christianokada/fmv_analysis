@@ -10,10 +10,10 @@ def parse_json_name(text, ext):
     filename = text.split(".")
     return filename[0] + ext
 
-description = []
-images = []
+description = [] # CV description
+images = [] # image file names
 tags = [] # add tags to image pages
-count = 0 
+count = 0
 
 for js in json_files:
     with open(os.path.join(path, js)) as json_file:
@@ -34,6 +34,14 @@ for js in json_files:
 
 for d in description:
     print d
+
+json_list = []
+for img in images:
+    json_list.append(parse_json_name(img, ""))
+
+data_json = open("images.json", "w")
+data_json.write(json.dumps(json_list))
+data_json.close()
 
 #create individual images pages
 pages = []
@@ -114,10 +122,21 @@ for x in range (0, len(images)):
 html_index = open("web/base.txt")
 soup = Soup(html_index, "html.parser")
 gallery = soup.find("div", { "class" : "image-gallery" })
+
+# table = soup.new_tag('table')
+# table['id'] = 'table'
+
+# iterate backwards and add images
 for x in range(len(images) - 1, -1, -1):
+####################
+    # tr = soup.new_tag('tr')
+    # tr['class'] = 'table_header'
+    # td = soup.new_tag('td')
+####################
     element = soup.new_tag('a')
     element['class'] = 'gallery-item'
     element['href'] = 'pages/' + pages[x]
+    element['id'] = json_list[x]
     image = soup.new_tag('img')
     image['src'] = 'analyze/'+ images[x]
     image['width'] = '100%'
@@ -131,7 +150,13 @@ for x in range(len(images) - 1, -1, -1):
     span.insert(1, h2)
     element.insert(1, image)
     element.insert(2, span)
+##############
+    # td.insert(1, element)
+    # tr.insert(1, td)
+    # table.insert(1, tr)
 
+    # gallery.insert_after(tr)
+##############
     # insert html at specified location (gallery)
     gallery.insert_after(element)
 

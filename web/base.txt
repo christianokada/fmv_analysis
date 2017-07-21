@@ -13,9 +13,6 @@
 	<meta name="keywords" content="" />
 	<meta name="author" content="" />
 
-	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-	<link rel="shortcut icon" href="favicon.ico">
-
 	<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,600,400italic,700' rel='stylesheet' type='text/css'>
 	<link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 	
@@ -63,7 +60,7 @@
 			<div class="fh5co-gallery">
 				<div>
 					<form>
-						<input type="text" name="search" placeholder="Search..">
+						<input type="text" name="search" placeholder="Search.." onkeyup="filter_results()" id="input" onkeypress="return event.keyCode!=13">
 					</form>
 				</div>
                 <div class="image-gallery">
@@ -110,6 +107,8 @@
 	<script src="js/jquery.waypoints.min.js"></script>
 	<!-- Counters -->
 	<script src="js/jquery.countTo.js"></script>
+	<!-- Search -->
+	<script src="js/search.js"></script>
 	
 	
 	<!-- MAIN JS -->

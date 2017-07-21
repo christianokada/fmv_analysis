@@ -129,6 +129,7 @@ def analyzeLocalImages(params, headers):
 
         jsonData = analyzeImageData(params, data, headers)
         jsonData["timestamp"] = timestamps[stamp]
+        jsonData["frame"] = file
         stamp += 1
 
         print ("Response:")
