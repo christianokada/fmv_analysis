@@ -25,10 +25,10 @@ dirname = 'analyze'
 if not os.path.exists(dirname):
     os.mkdir(dirname)
 dirname = 'data'
-    if not os.path.exists(dirname):
+if not os.path.exists(dirname):
         os.mkdir(dirname)
 dirname = 'pages'
-    if not os.path.exists(dirname):
+if not os.path.exists(dirname):
         os.mkdir(dirname)
     
 print(cv2.__version__)
