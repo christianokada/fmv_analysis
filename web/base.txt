@@ -51,7 +51,7 @@
 			</nav>
 
 			<div class="fh5co-footer">
-				<p><small>Summary for [videoname]</span><span><a href="https://github.com/christianokada/fmv_analysis" target="_blank">Github</a></span></small></p>
+				<p><small><a href="https://github.com/christianokada/fmv_analysis" target="_blank">FMV Analysis</a></span><span></span></small></p>
             </div>
 
 		</aside>
@@ -75,16 +75,7 @@
 				<div class="fh5co-narrow-content animate-box">
 					<div class="row" >
 						<div class="col-md-4 text-center">
-							<span class="fh5co-counter js-counter" data-from="0" data-to="67" data-speed="5000" data-refresh-interval="50"></span>
-							<span class="fh5co-counter-label">Frames</span>
-						</div>
-						<div class="col-md-4 text-center">
-							<span class="fh5co-counter js-counter" data-from="0" data-to="130" data-speed="5000" data-refresh-interval="50"></span>
-							<span class="fh5co-counter-label">Photos</span>
-						</div>
-						<div class="col-md-4 text-center">
-							<span class="fh5co-counter js-counter" data-from="0" data-to="27232" data-speed="5000" data-refresh-interval="50"></span>
-							<span class="fh5co-counter-label">Pixels</span>
+						
 						</div>
 					</div>
 				</div>

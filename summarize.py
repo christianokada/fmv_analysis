@@ -32,9 +32,6 @@ for js in json_files:
         # print json.load(json_file)
         count += 1
 
-for d in description:
-    print d
-
 json_list = []
 for img in images:
     json_list.append(parse_json_name(img, ""))
@@ -123,16 +120,8 @@ html_index = open("web/base.txt")
 soup = Soup(html_index, "html.parser")
 gallery = soup.find("div", { "class" : "image-gallery" })
 
-# table = soup.new_tag('table')
-# table['id'] = 'table'
-
 # iterate backwards and add images
 for x in range(len(images) - 1, -1, -1):
-####################
-    # tr = soup.new_tag('tr')
-    # tr['class'] = 'table_header'
-    # td = soup.new_tag('td')
-####################
     element = soup.new_tag('a')
     element['class'] = 'gallery-item'
     element['href'] = 'pages/' + pages[x]
@@ -150,15 +139,24 @@ for x in range(len(images) - 1, -1, -1):
     span.insert(1, h2)
     element.insert(1, image)
     element.insert(2, span)
-##############
-    # td.insert(1, element)
-    # tr.insert(1, td)
-    # table.insert(1, tr)
 
-    # gallery.insert_after(tr)
-##############
     # insert html at specified location (gallery)
     gallery.insert_after(element)
+
+jscounter_loc = soup.find("div", { "class" : "col-md-4 text-center" })
+photos = soup.new_tag('span')
+photos['class'] = 'fh5co-counter js-counter'
+photos['data-from'] = '0'
+photos['data-to'] = str(len(images))
+photos['data-speed'] = '3000'
+photos['data-refresh-interva'] = 50
+photo_name = soup.new_tag('span')
+photo_name['class'] = 'fh5co-counter-label'
+photo_name.insert(1, "Frames")
+
+jscounter_loc.insert_after(photo_name)
+jscounter_loc.insert_after(photos)
+
 
 # write to file
 index = open("index.html", "w")
