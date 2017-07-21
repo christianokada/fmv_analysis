@@ -147,15 +147,15 @@ jscounter_loc = soup.find("div", { "class" : "col-md-4 text-center" })
 photos = soup.new_tag('span')
 photos['class'] = 'fh5co-counter js-counter'
 photos['data-from'] = '0'
-photos['data-to'] = str(len(images))
-photos['data-speed'] = '3000'
+photos['data-to'] = str(len(images)),
+photos['data-speed'] = '3500'
 photos['data-refresh-interva'] = 50
 photo_name = soup.new_tag('span')
 photo_name['class'] = 'fh5co-counter-label'
 photo_name.insert(1, "Frames")
 
-jscounter_loc.insert_after(photo_name)
-jscounter_loc.insert_after(photos)
+jscounter_loc.insert(1, photos)
+jscounter_loc.insert(2,photo_name)
 
 
 # write to file

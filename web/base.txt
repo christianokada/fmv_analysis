@@ -75,8 +75,12 @@
 				<div class="fh5co-narrow-content animate-box">
 					<div class="row" >
 						<div class="col-md-4 text-center">
-						
+
 						</div>
+						<div class="col-md-4 text-center">
+							<span class="fh5co-counter js-counter" data-from="0" data-to="27232" data-speed="3500" data-refresh-interval="50"></span>
+							<span class="fh5co-counter-label">Pixels</span>
+						</div
 					</div>
 				</div>
 			</div>
