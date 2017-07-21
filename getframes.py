@@ -21,15 +21,15 @@ if not args.get("video", False):
 else:
 	cap = cv2.VideoCapture(args["video"])
 
-dirname = 'analyze'
-if not os.path.exists(dirname):
-    os.mkdir(dirname)
 dirname = 'data'
 if not os.path.exists(dirname):
         os.mkdir(dirname)
 dirname = 'pages'
 if not os.path.exists(dirname):
         os.mkdir(dirname)
+dirname = 'analyze'
+if not os.path.exists(dirname):
+    os.mkdir(dirname)
     
 print(cv2.__version__)
 # cap = cv2.VideoCapture(videoname)
