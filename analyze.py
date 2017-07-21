@@ -162,7 +162,7 @@ def analyzeImageData(params, data, headers):
 # location: ./data/img_name.json
 def storeData(jsonData, img_name):
     # store data in data directory
-    with open('data\\' + img_name + ".json", 'w') as fp:
+    with open('data/' + img_name + ".json", 'w') as fp:
         json.dump(jsonData, fp, sort_keys=True, indent=2)
 
 if __name__ == "__main__":
