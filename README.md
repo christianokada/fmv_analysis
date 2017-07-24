@@ -14,4 +14,4 @@ $ python analyze.py --key supscription key<br />
 $ python summarize.py<br />
 $ node web-server.js
 
-Open browser to localhost:8124
+Open browser to localhost:8124 to view, search, and learn more about this video!
