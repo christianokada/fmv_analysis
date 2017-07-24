@@ -6,7 +6,7 @@ Requirements: <br />
 python 2.7<br />
 opencv-python, numpy, pandas (pip install)<br />
 Azure Supscription (Computer Vision API)<br />
-npm install connect serve-static
+Node.js -- npm install connect serve-static
 
 Demo:<br />
 $ python getframes.py --video videoname<br />
