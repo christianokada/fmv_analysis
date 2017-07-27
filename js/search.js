@@ -23,7 +23,7 @@ function filter_results() {
             }).then(function() {
                 // console.log("post = " + element + i)
                 // make hidden or visible if bool is false
-                if (contains == false) {
+                if (contains == false && query != "") {
                     console.log(element + " hidden")
                     document.getElementById(element).setAttribute('style', 'display:none');
                     // document.getElementById(element).setAttribute('style','visibility:hidden');
