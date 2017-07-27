@@ -4,9 +4,10 @@ Application to summarize full motion video and provide a blueprint and descripti
 # Demo
 Requirements: <br />
 python 2.7<br />
-opencv-python, numpy, pandas (pip install)<br />
+pip install opencv-python, numpy, pandas, beautifulsoup4<br />
+npm install connect serve-static <br />
 Azure Supscription (Computer Vision API)<br />
-Node.js -- npm install connect serve-static
+
 
 Demo:<br />
 $ python getframes.py --video videoname<br />
